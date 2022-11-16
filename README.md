@@ -19,8 +19,8 @@ class Demo {
         ePay.setOutTradeNo("tradeNO");
         ePay.setType("alipay");
         ePay.setMoney("8.88");
-        ePay.setNotifyUrl("https:/test.test/api/pay/notify");
-        ePay.setReturnUrl("https:/test.test/api/pay/return");
+        ePay.setNotifyUrl("https://test.test/api/pay/notify");
+        ePay.setReturnUrl("https://test.test/api/pay/return");
         return ePay.order(true);
     }
 

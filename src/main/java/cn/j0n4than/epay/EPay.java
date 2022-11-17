@@ -84,7 +84,7 @@ public class EPay extends BasePay {
      *
      * @return 返回url或html
      */
-    public Object order(boolean getHtml) {
+    public String order(boolean getHtml) {
         Map<String, Object> requestBody = this.getRequestBody();
         StringBuilder result = new StringBuilder();
         if (getHtml) {

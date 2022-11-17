@@ -1,15 +1,9 @@
-# EPay
-
-更简单方便的接入易支付
-
-# 使用:
-```java
 import cn.j0n4than.epay.EPay;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-class Demo {
+public class Demo {
     /**
      * 下单接口
      *
@@ -46,4 +40,3 @@ class Demo {
         System.out.println("order = " + order);
     }
 }
-```

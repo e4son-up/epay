@@ -17,6 +17,7 @@ public abstract class BasePay {
      * 异步通知验证
      *
      * @param data 请求的数据
+     *
      * @return true 验证成功, false 验证失败
      */
     public abstract boolean signVerify(Map<String, String[]> data);
@@ -27,6 +28,7 @@ public abstract class BasePay {
      * @param map 需要排序的Map
      * @param <K> key
      * @param <V> value
+     *
      * @return 排序后的Map
      */
     protected <K extends Comparable<? super K>, V> Map<K, V> sort(Map<K, V> map) {
@@ -42,6 +44,7 @@ public abstract class BasePay {
      * MD5加密
      *
      * @param str 需要加密的字符串
+     *
      * @return 加密后的字符串
      */
     public static String md5(String str) {

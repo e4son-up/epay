@@ -10,13 +10,24 @@ public class Demo {
      * @return 返回HTML代码
      */
     public String order() {
-        EPay ePay = new EPay("id", "key", "https://test.test/submit.php");
+        EPay ePay = new EPay("id", "key", "https://test.test/");
         ePay.setOutTradeNo("tradeNO");
         ePay.setType("alipay");
         ePay.setMoney(new BigDecimal("8.88"));
         ePay.setNotifyUrl("https://test.test/api/pay/notify");
         ePay.setReturnUrl("https://test.test/api/pay/return");
         return ePay.order(true);
+    }
+
+    public String mApi() {
+        EPay ePay = new EPay("id", "key", "https://test.test/");
+        ePay.setOutTradeNo("tradeNO");
+        ePay.setType("alipay");
+        ePay.setMoney(new BigDecimal("0.01"));
+        ePay.setClientIp("127.0.0.1");
+        ePay.setNotifyUrl("https://test.test/api/pay/notify");
+        ePay.setReturnUrl("https://test.test/api/pay/return");
+        return ePay.mApi();
     }
 
     /**
@@ -36,7 +47,7 @@ public class Demo {
     }
 
     public static void main(String[] args) {
-        String order = new Demo().order();
+        String order = new Demo().mApi();
         System.out.println("order = " + order);
     }
 }

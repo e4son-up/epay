@@ -1,7 +1,10 @@
 package cn.j0n4than.epay;
 
+import cn.hutool.http.HttpUtil;
 import cn.j0n4than.epay.base.BasePay;
+import cn.j0n4than.epay.utils.CryptoUtils;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +65,11 @@ public class EPay extends BasePay {
     private BigDecimal money;
 
     /**
+     * 客户端IP
+     */
+    private String clientIp;
+
+    /**
      * 加密算法(一般情况不用改)
      */
     private String signType = "MD5";
@@ -85,12 +93,25 @@ public class EPay extends BasePay {
      * @return 返回url或html
      */
     public String order(boolean getHtml) {
-        Map<String, Object> requestBody = this.getRequestBody();
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("pid", this.id);
+        requestBody.put("type", this.type);
+        requestBody.put("out_trade_no", this.outTradeNo);
+        requestBody.put("notify_url", this.notifyUrl);
+        requestBody.put("return_url", this.returnUrl);
+        requestBody.put("name", this.name);
+        requestBody.put("money", this.money);
+
+        //排序
+        requestBody = this.sort(requestBody);
+        //获取签名
+        requestBody.put("sign", this.getSign(requestBody));
         StringBuilder result = new StringBuilder();
         if (getHtml) {
             //构建html
             result.append("<form id='epay' name='epay' action='")
                     .append(this.url)
+                    .append("submit.php")
                     .append("' method='post'>");
 
             for (Map.Entry<String, Object> m : requestBody.entrySet()) {
@@ -115,26 +136,21 @@ public class EPay extends BasePay {
         return result.substring(0, result.length() - 1);
     }
 
-    /**
-     * 获取下单接口请求体
-     *
-     * @return Map
-     */
-    private Map<String, Object> getRequestBody() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("pid", this.id);
-        data.put("type", this.type);
-        data.put("out_trade_no", this.outTradeNo);
-        data.put("notify_url", this.notifyUrl);
-        data.put("return_url", this.returnUrl);
-        data.put("name", this.name);
-        data.put("money", this.money);
+    public String mApi() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("pid", this.id);
+        params.put("type", this.type);
+        params.put("out_trade_no", this.outTradeNo);
+        params.put("notify_url", this.notifyUrl);
+        params.put("name", this.name);
+        params.put("money", this.money.toString());
+        params.put("clientip", this.clientIp);
 
-        //排序
-        data = this.sort(data);
-        //获取签名
-        data.put("sign", this.getSign(data));
-        return data;
+        params = this.sort(params);
+
+        params.put("sign", this.getSign(params));
+        params.put("sign_type", "MD5");
+        return HttpUtil.post(this.url + "/mapi.php", params);
     }
 
     /**
@@ -156,8 +172,10 @@ public class EPay extends BasePay {
             signStr.append(m.getKey()).append("=").append(m.getValue()).append("&");
         }
 
+        //System.out.println(signStr.substring(0, signStr.length() - 1) + this.key);
+
         //明文拼接key, md5加密后返回
-        return this.md5(signStr.substring(0, signStr.length() - 1) + this.key);
+        return CryptoUtils.md5(signStr.substring(0, signStr.length() - 1) + this.key);
     }
 
     /**
@@ -226,6 +244,14 @@ public class EPay extends BasePay {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 
     public String getSignType() {

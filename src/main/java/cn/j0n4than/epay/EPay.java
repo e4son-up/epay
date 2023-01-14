@@ -154,6 +154,16 @@ public class EPay extends BasePay {
     }
 
     /**
+     * 订单是否支付
+     * @param tradeNo 订单号
+     * @return tradeNo
+     */
+    public String getTradeInfo(String tradeNo) {
+
+        return HttpUtil.get(String.format("%s/api.php?act=order&pid=%s&key=%s&out_trade_no=%s",this.url, this.id, this.key, tradeNo));
+    }
+
+    /**
      * 获取签名
      *
      * @param data 排序后的数据

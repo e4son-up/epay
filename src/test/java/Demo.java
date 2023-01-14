@@ -31,6 +31,15 @@ public class Demo {
     }
 
     /**
+     * 获取订单信息
+     * @return 订单信息(JSON格式)
+     */
+    public String getTradeInfo() {
+        EPay ePay = new EPay("id", "key", "https://test.test/");
+        return ePay.getTradeInfo("2023011417574627465");
+    }
+
+    /**
      * 验证回调请求
      *
      * @return String
@@ -47,7 +56,7 @@ public class Demo {
     }
 
     public static void main(String[] args) {
-        String order = new Demo().mApi();
+        String order = new Demo().getTradeInfo();
         System.out.println("order = " + order);
     }
 }

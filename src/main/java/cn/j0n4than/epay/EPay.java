@@ -125,7 +125,7 @@ public class EPay extends BasePay {
         }
 
         //构建url
-        result.append(this.url).append("?");
+        result.append(this.url).append("submit.php?");
         for (Map.Entry<String, Object> m : requestBody.entrySet()) {
             result.append(m.getKey())
                     .append("=")

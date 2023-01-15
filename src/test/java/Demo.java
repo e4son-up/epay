@@ -2,6 +2,7 @@ import cn.j0n4than.epay.EPay;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Demo {
     /**
@@ -11,18 +12,20 @@ public class Demo {
      */
     public String order() {
         EPay ePay = new EPay("id", "key", "https://test.test/");
-        ePay.setOutTradeNo("tradeNO");
+        ePay.setOutTradeNo(String.valueOf(System.currentTimeMillis()));  //默认系统订单号
         ePay.setType("alipay");
+        ePay.setName("hello");
         ePay.setMoney(new BigDecimal("8.88"));
         ePay.setNotifyUrl("https://test.test/api/pay/notify");
         ePay.setReturnUrl("https://test.test/api/pay/return");
-        return ePay.order(true);
+        return ePay.order(false);
     }
 
     public String mApi() {
         EPay ePay = new EPay("id", "key", "https://test.test/");
-        ePay.setOutTradeNo("tradeNO");
-        ePay.setType("alipay");
+        ePay.setOutTradeNo(String.valueOf(System.currentTimeMillis()));
+        ePay.setType("wxpay");
+        ePay.setName("hello");
         ePay.setMoney(new BigDecimal("0.01"));
         ePay.setClientIp("127.0.0.1");
         ePay.setNotifyUrl("https://test.test/api/pay/notify");
@@ -56,7 +59,7 @@ public class Demo {
     }
 
     public static void main(String[] args) {
-        String order = new Demo().getTradeInfo();
+        String order = new Demo().mApi();
         System.out.println("order = " + order);
     }
 }

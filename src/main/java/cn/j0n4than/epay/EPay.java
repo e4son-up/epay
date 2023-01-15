@@ -154,20 +154,29 @@ public class EPay extends BasePay {
     }
 
     /**
-     * 订单是否支付
+     * 根据系统订单号查询订单信息
+     *
      * @param tradeNo 订单号
      * @return tradeNo
      */
-    public String getTradeInfo(String tradeNo) {
+    public String getTradeInfoByTradeNo(String tradeNo) {
+        return HttpUtil.get(String.format("%s/api.php?act=order&pid=%s&key=%s&trade_no=%s", this.url, this.id, this.key, tradeNo));
+    }
 
-        return HttpUtil.get(String.format("%s/api.php?act=order&pid=%s&key=%s&out_trade_no=%s",this.url, this.id, this.key, tradeNo));
+    /**
+     * 根据商户订单号查询订单信息
+     *
+     * @param outTradeNo 订单号
+     * @return tradeNo
+     */
+    public String getTradeInfoByOutTradeNo(String outTradeNo) {
+        return HttpUtil.get(String.format("%s/api.php?act=order&pid=%s&key=%s&out_trade_no=%s", this.url, this.id, this.key, outTradeNo));
     }
 
     /**
      * 获取签名
      *
      * @param data 排序后的数据
-     *
      * @return 签名
      */
     public String getSign(Map<String, Object> data) {
@@ -192,7 +201,6 @@ public class EPay extends BasePay {
      * 签名验证
      *
      * @param data 请求的数据
-     *
      * @return true 验证成功, false 验证失败
      */
     @Override

@@ -6,7 +6,6 @@ public class CryptoUtils {
      * MD5加密
      *
      * @param str 需要加密的字符串
-     *
      * @return 加密后的字符串
      */
     public static String md5(String str) {

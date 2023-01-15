@@ -39,7 +39,7 @@ public class Demo {
      */
     public String getTradeInfo() {
         EPay ePay = new EPay("id", "key", "https://test.test/");
-        return ePay.getTradeInfo("2023011417574627465");
+        return ePay.getTradeInfoByOutTradeNo("2023011417574627465");
     }
 
     /**
